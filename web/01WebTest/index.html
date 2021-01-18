@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+    <!-- 1. 화면에 안보이는 영역 설정 -->
+    <head>
+        <title>My Web Page</title>
+        <!-- 기본적으로 한글이 깨짐 -이를 방지하기 위해 유니코드[utf-8]사용 -->
+        <meta charset="utf-8">
+
+
+        <!-- 스타일 작업 : CSS라는 언어문법 사용 -->
+        <!-- <style>
+            /* <style>태그문 안에서는 html문법이 아니라 css문법을 사용함 [주석문법도 다름] */
+            h2{background-color: #ffff00;}
+            p{color: #ff0000;}
+            img{width: 150px; display: block;}
+            button{margin-top: 16px;}
+        </style> -->
+
+        <!-- 동적동작 코딩을 위한 Javascript언어 사용 -->
+        <!-- <script>
+            // 이 <script>태그안에서는 JS문법체계를 따름[주석도 다름]
+            
+            //함수 선언
+            function show(){
+                alert('로그인 버튼 클릭');//다이얼로그 보여주는 함수                
+            }
+
+            function changeImage(){
+                //이미지를 가지고 있는 요소(img)를 찾아오기
+                var e= document.getElementById('aa');
+                e.src="./koala.jpg";
+            }
+
+        </script> -->
+
+        <!-- CSS와 JS는 별도의 외부문서로 만들어서 각자 작업하고 -->
+        <!-- 이 html문서에 연결 하여 사용하는 것을 권장 -->
+        <link rel="stylesheet" type="text/css" href="./index.css"/>
+        <script src="./index.js"></script>
+
+    </head>
+
+    <!-- 2. 주소창 아래 화면에 보이는 영역-->
+    <body>
+        <h2>My First Web Page</h2>
+        <p>This is first web page.</p>
+        <p>한글도 표시됨</p>
+
+        <img src="./Penguins.jpg" id="aa">
+        <button onclick="show()">로그인</button>  
+        <button onclick="changeImage()">이미지 변경</button>
+    </body>
+
+</html>
