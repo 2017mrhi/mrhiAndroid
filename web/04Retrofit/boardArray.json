@@ -1,0 +1,6 @@
+[
+    {"name":"sam", "msg":"Hello android"},
+    {"name":"robin", "msg":"Hello web"},
+    {"name":"kim", "msg":"Hello retrofit"},
+    {"name":"hong", "msg":"Hello world"}
+]
