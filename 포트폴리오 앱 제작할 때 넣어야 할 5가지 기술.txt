@@ -1,0 +1,8 @@
+포트폴리오 앱 제작할 때 가급적 반드시 넣어야 할 5가지 기술
+
+1. 기본뷰와 RecyclerView
+2. Open API 파싱 [ xml, json ]
+3. Http 통신(Retrofit2)
+
+4. 지도, [로그인기능]
+5. Push Service
