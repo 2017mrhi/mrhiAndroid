@@ -1,0 +1,734 @@
+﻿
+www.git-scm.com 에서 설치파일 다운로드
+
+ * Git from th command line and also from 3rd-party software : Git Bash라는 프로그램 외의 프로그램(cmd, terminal)에서도 Git명령사용가능
+
+
+
+
+Git Bash최초 설정
+
+1. 사용자 정보
+Git을 설치하고 나서 가장 먼저 해야 하는 것은 사용자 이름과 이메일 주소를 설정하는 것이다. 
+Git은 커밋할 때마다 이 정보를 사용한다. 한 번 커밋한 후에는 정보를 변경할 수 없다:
+
+$ git config --global user.name "John Doe"
+$ git config --global user.email johndoe@example.com
+
+
+## 설정한 사용자 정보 확인하기 ############
+$ git config user.name
+$ git config user.email
+####################################
+
+
+
+---------------------------------------------------------------------------------------------------
+
+Git저장소 만들기
+
+1. 윈도우 탐색기로 프로젝트폴더 생성 ( D/Android/GitRepository )
+
+
+2. Git Bash 프로그램에서 로컬 저장소 폴더로 이동 ( D/Android/GitRepository )
+
+$ cd .. (상위 디렉토리로 이동)
+
+$ cd /d (change directory : 디렉토리 이동 - 곧바로 D로 가려면 앞에 /d 표기..)
+
+
+$ ls (list. 디렉토리안에 파일과 폴더들 리스트보여주는 명령어 )
+
+$ cd Android ( Android 디렉토리로 이동 )
+
+$ cd GitRepository ( GitRepository 디렉토리로 이동 )
+
+
+
+3. D/Android/GitRepository 폴더에서 Git관리 프로젝트 만들기
+
+$ mkdir Hello (Hello라는 이름으로 디렉토리[폴더] 만들기)
+
+$ cd Hello  (Hello 디렉토리로 이동)
+
+
+ - 프로젝트를 Git으로 관리하고 싶을 때, 프로젝트의 디렉토리로 이동해서 아래과 같은 명령을 실행한다.
+
+$ git init
+
+ - 이 명령은 .git이라는 하위 디렉토리를 만든다.(윈도우탐색기로 .git폴더존재확인 : 숨김문서보기)
+    .git 디렉토리에는 저장소에 필요한 뼈대 파일(Skeleton)이 들어 있다
+
+ - initialized 코멘트가 출력될때 디렉토리 경로의 뒤에 (master)라고 표시되는 것을 볼 수 있음.
+   - 현재 저장소에서 작업중인 브랜치가 master라는 것을 표시하고 있는 것임.
+
+
+4. 첫번째 파일 만들어보기. (Vim편집기 사용 - git설치시에 같이 있음)
+
+$ vim Hello.java
+
+  - 편집기화면모드가 되면 [i]키를 누르기(글 삽입[작성]모드)
+
+  public class Hello{
+
+	public static void main(String[] args){
+		System.out.println("Hello world!");
+	}
+
+  }
+
+  - 입력이 완료되었으면[Esc]키를 누르고 :wq를 통해 작성 종료
+  - 그냥 :q! 를 쓰면 저장없이 종료
+
+  - 저장이 잘 되어 있는지 문서 보기.
+   1) cat Hello.java
+   2) 윈도우 탐색창에서 문서 열어보기
+
+
+4. 문서작업이 완료되면 git의 소스코드 관리상태를 확인해보기
+
+ $ git status
+
+  -- 아직 git에 의해 Hello.java문서의 작업내역이 git 시스템의 관리번호에 적용(staged라고 함)되지 않았기에
+     빨간 글씨로 Hello.java가 보여질 것임.
+
+    -- 주의깊게 글들을 보면 (use "git add <file>..." .. 이런식으로 해야할 명령어가 있으니 다음 작업을 예상할 때 참고..)
+
+
+5. Hello.java문서를 git시스템의 관리파일에 추가하기
+
+ $ git add Hello.java 
+
+  -- 잘되면 The file will have its original line endings in your working directory.메세지 보임.
+
+  (*  Windows 에서는  line ending으로 CR(Carriage-Return, \r)과 LF(Line Feed, \n)을 사용하고 Unix 나 Mac OS 는 LF 만 사용)
+      vim이 unix 계열이고 Hello.java는 윈도우에 저장되므로 .. LF로 된 줄바꿈이 CRLF로 변경되었다고 표시되는 경고문구 있음.
+  
+  [  참고 :   $ git add --all  을 사용하면 새로 수정된 모든 변경사항들이 add 됨 ]
+
+
+6. git관리시스템에 잘 추가 되었는지 다시한번 상태 보기
+
+ $ git status
+
+  -- 잘되었으면.. 녹색으로 파일내역 보일것임.
+
+  -- 여기까지 하면 현재 저장상태까지 잘 작업되었다는 것이지만 아직 완전하게 작업을 완료한 것은 아님.
+
+
+7. git을 통해 문서작업 완료(commit)하기 [ 현재까지의 작업 일단 완료표시 ]
+
+ $ git commit
+
+  -- 편집기가 보이면서 커밋메세지를 작성하도록 함 : [i]키를 누른 후 커밋메세지 작성
+
+      First commit 
+
+  -- 메세지 작성이 완료되었으면 [Esc]키를 누르고 :wq를 통해 저장후 작성 종료
+
+
+  -- 정상적으로 완료되었다는 메세지가 보일 것임.
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+
+브랜치(Branch) 알아보기..(기존에 완료된 곳에서 이어서 작성하다가 잘못되면 기존 성공파일로 못 돌아감...)
+
+0. 브랜치의 리스트 보기
+
+ $ git branch
+
+  -- 현재 브랜치가 녹색으로 표시됨.
+
+
+1. 새로운 브랜치 만들기
+
+ $ git branch hotfix
+
+
+2. 브랜치가 만들어 졌는지 확인하기
+
+ $ git branch
+
+  -- 현재 브랜치가 녹색으로 표시됨
+
+
+3. 새로운 브랜치로 이동
+
+ $ git checkout hotfix
+
+  -- hotfix 브랜치로 이동.. 경로를 보면 (hotfix)로 파란색 글씨가 변경되어 있음.    
+  -- Switched to branch 'hotfix' 메세지 보임.
+
+
+4. hotfix 브랜치에서 문서수정작업
+
+ $ vim Hello.java
+
+  -- [i]키를 누르고 새로운 글씨 추가 Nice to meet you. 작성완료 후 [Esc]키 누르고 :wq로 저장 및 나가기
+
+ $ cat Hello.java
+
+  -- 수정된 내역 확인하기
+
+
+5. 작업한 내용에 대한 git시스템의 관리상태 확인 
+
+ $ git status
+
+  -- 빨간 글씨가 보이면 관리중이 아닌것이 있는 것임.
+
+
+6. 작업내역(Hello.java)을 git시스템에 추가하기
+
+ $ git add Hello.java
+
+ $ git status --확인해 보기 , 녹색글씨가 보이면 추가된것임.
+
+
+7. 작업의 내용이 완료되었으면 확정명령(commit)하기
+
+ $ git commit
+
+  -- [i]키 누르고 커밋메세지 작성, [Esc]키 누르고 :wq로 작성완료
+
+
+8. master브랜치와 hotfix브랜치의 차이 확인하기
+
+ 1) hotfix브랜치에서 Hello.java문서 확인 
+   
+    $ cat Hello.java 
+
+ 2) master브랜치로 이동(checkout)후 Hello.java문서 확인
+
+    $ git checkout master
+
+    $ cat Hello.java 
+
+ 3) 실제 브랜치를 변경했을 당시의 윈도우 탐색기에서 Hello.java문서를 메모장으로 확인해보기
+   
+    (문서는 1개인데 브랜치마다 다르게 보임)
+
+
+9. master와 hotfix의 작업내용을 병합(merge)하기
+
+  1) master브랜치에서 hotfix 병합(merge)
+
+    $ git merge hotfix 
+
+     -- [i]키를 누르고 병합 코멘트 작성, [Esc]키를 누르고 :wq로 나오기
+
+  2) 병합내역 확인
+
+    $ cat Hello.java
+
+
+ ** 새로운 작업은 다시 hotfix브랜치에서...
+
+ ** master는 언제나 최종 완성본들만.......
+
+----------------------------------------------------------------------------------------------------
+ $ git log     -- commit history show
+-------------------------------------------------------------------------------------------------- 
+
+
+
+작업내용 되돌리기(Roll Back)
+
+1. hotfix브랜치로 이동
+
+ $ git checkout hotfix
+
+
+2. Hello.java 수정
+
+ $ vim Hello.java
+
+  -- [i]키 누르고 새로운 내용 추가.. [Esc]키 누르고 :wq로 나오기
+
+
+3. 작업내용 git시스템 관리상태 확인 및 Roll Back 힌트 확인하기
+
+ $ git status
+
+   -- 빨간글씨 위에 ( use ""git restore <file>...     or    git checkout -- <file>.." 이라는 명령이 작업내역을 되돌리는 명령어)
+
+
+4. 되돌리기 및 확인
+
+ $ git restore Hello.java    or    git checkout -- Hello.java    
+
+ $ cat Hello.java
+
+
+5. 혹시 git시스템 관리 추가까지 했다면.??
+
+ 1) Hello.java 새로 수정.   $ vim Hello.java
+
+ 2) 깃시스템 관리 추가      $ git add Hello.java
+
+ 3) 관리 상태 확인 및 힌트  $ git status
+
+     -- (use ""git restore --staged <file>...   or     git reset HEAD <file>..."이라는 명령어이 add한 내역을 되돌리는 명령)
+
+ 4) add 이전 상태로 되돌리기 및 상태 확인
+
+   $ git restore --staged Hello.java    or  git reset HEAD Hello.java
+
+   $ git status
+
+
+6. 혹시 커밋까지 했다면??
+
+  1) commit 이전 즉, add와 commit 작업을 취소 
+     
+     $ git reset HEAD~1    - 가장 최근 commit 취소, File의 수정내역은 그대로 존재함  [ git status 를 하면 빨간색 파일명이 보여짐 ]
+
+
+  2) 이전 commit 명령만 취소 - 즉, add까지는 되어 있는 상태 
+
+     $ git reset --soft HEAD~1    [ git status 를 하면 녹색 파일명이 보여짐 ]
+
+
+  3) 이전 commit 지점으로 롤백
+
+     $ git reset --hard HEAD~1    - 실제 파일의 수정내역도 모두 이전 커밋지점 상태로 변환 [ git status 를 하면 커밋할게 없다고 나옴 ]
+
+
+  4) 특정 commit Id를 이용해 rollback
+
+     $ git reset --hard {commit id}
+
+      ex ) $ git reset --hard a2593c504495a05455d029c0d388d17fe52af086  
+            --(  $ git log  를 통해 commit history를 볼 수 있고 commit id 확인 가능 )
+  
+ 
+  5) master의 마지막 병합 위치로 롤백
+  
+     $ git reset --hard master
+
+       HEAD is now at 1f58cad additinal println "aaa" Merge branch 'hotfix'
+       (hotfix브랜치는 이제 이전 master 병합위치로 이동)
+
+----------------------------------------------------------------------------------------------------
+
+
+#git bash or cmd or Terminal 에서 새로운 디렉토리[폴더] 만들기
+ 
+ mkdir FirstProject
+
+-------------------
+
+# 각 프로젝트 폴더마다 git init 하는 것이 좋음.
+
+ - D/Android/에 git을 주면 다른 프로젝트 전체에 대해 git관리를 해주기에 git status가 항상 다른 폴더도 표시됨.
+
+
+# git 저장소 해제하기!!!
+
+ -- 해당 폴더에서 .git폴더 삭제
+
+# git 브랜치 삭제
+
+ $ git branch -d <branchname>
+
+-----------------------------------------------------------------------------------------------------
+
+
+다른 git 저장소를 복제해 오기
+
+1. 새로운 폴더 생성 (D/Android/GitRepository2)
+
+2. 로컬 저장소 복제(clone) // /로컬/저장소/경로
+
+ $ git clone D:/Android/GitRepository/Hello ( git bash에서는 경로구분에 '/' 사용 [역슬래시아님] )
+
+ - GitRepository2안에 Hello라는 프로젝트가 복제되어 온 것을 확인할 수 있음.  
+  ** 복사해올 로컬저장소의 마지막 branch상태에서 복제되기에 'master'로 이동 후 clone.
+  ** hotfix brach 는 복제되지 않았음.
+
+
+
+ ## 원격 서버의 저장소를 복제하려면 아래 명령을 실행하세요. ##
+
+ $ git clone <원격지 주소.git>   
+
+ ex) CircleImageView의 GitHub 사이트에서 [ Clone with HTTPS ] 주소를 통해 파일들 내려받기
+
+    $ git clone https://github.com/hdodenhof/CircleImageView.git    
+
+
+------------------------------------------------------------------------------------------------------
+
+
+
+
+
+GitHub 원격저장소 : 작업내역을 오로지 로컬PC에만 있으면 다른 PC에서는 작업을 못하므로 온라인 저장소 PC라고 보면됨
+
+(일종의 클라우드 서버)
+
+
+www.github.com 회원가입 및 이메일 인증 
+
+
+1. First 프로젝트 저장소 만들기 // README.md도 같이 만들기
+
+
+2. [create new file] 버튼을 통해 Hello.java 문서 생성 및 commit
+
+ -- GitHub사이트는 기본적으로 작업할때마다 commit하도록 되어있어서 바로바로 관리(add)및 완료(commit)이 동시에 됨
+
+
+3. [Branch: master] 버튼을 통해 새로운 hotfix 브랜치 추가 및 이동(checkout)
+
+
+4. hotfix브랜치에서 Hello.java를 선택하고 [연필]모양의 아이콘으로 문서 수정 및 커밋
+
+
+5. 커밋 후 master브랜치와 hotfix브랜치를 이동하면서 Hello.java문서가 서로 다름을 확인
+
+
+6. 병합(merge)하기//
+
+ 1) master브랜치로 이동(병합당하는 브랜치)
+
+ 2) [Compare & pull request]라는 녹색버튼을 통해 branch비교 및 병합의 위해 가져오기 요청
+
+ 3) hotfix의 commit지점 메세지가 보여지며 아래쪽에는 바뀌어진 내역이 비교되어 표시됨
+
+   --  녹색음영으로 + 아이콘이 있는 것이 추가된것
+   --  적색음영으로 - 된것이 제거된 것
+
+ 4) [Create pull request] 녹색버튼으로 병합의 위해 가져오기 요청
+
+ 5) 요청내역이 보이면서 녹색박스 안에 녹색버튼으로 [Merge pull requet]버튼 으로 병합[merge]하기
+
+   ## 아래 Write 영역에 메세지 작성 후 [Comment]버튼 클릭하면 새로운 pull request 메세지가 나오나 별 필요 없음.
+
+ 6) Merge코멘트 작성 후 [Comfirm merge] 녹색버튼 클릭
+
+
+  ## 녹색들이 보라색으로 바뀌면 merge성공
+
+
+ 7) 저장소로 이동하여 branch를 이동하면서 Hello.java문서 확인
+
+
+----------------------
+
+
+
+ ## 문서선택 후 [History]버튼 클릭하면 이전 Commit내역들을 볼 수 있으며 그중에 원하는 위치의 index번호를 선택하면
+
+   해당 commit당시의 문서를 볼 수 있음.
+
+
+ ## Gihub는 롤백기능을 찾을 수 없음. 
+
+
+
+ ## Github에서 다른 사람의 주소가 있으면 문서 볼수 있음. -- 수정을 불가능 ---
+
+   -- 본인 주소를 다른 웹브라우져에서 보기
+
+
+ ## 수정하려면 [Fork]로 가져와서(clone) 내 저장소에 넣고 수정하기
+
+
+ ## [Upload files]버튼을 통해 파일업로드 가능
+   - 가급적 저장소의 내용을 바꿀때는 곧바로 master브랜치에서 하기 보다는 다른 branch에서 작업하고 merge하는 것이 좋음
+   - 참고로 파일만 업로드하면 merge할때 hotfix브랜치와 병합한다고 자동 체크되지 않으므로 직접 hotfix를 선택해 주어야 함.
+
+
+ ## README.md 파일은 html문법에 맞게 작성하면 화면 꾸밀 수 있음.
+
+
+ // constributor : 기여자
+
+
+---------------------------------------------------------------------------------------------------------
+
+
+   
+Github Team 프로젝트
+
+1. 팀장이 저장소 하나 생성 ( FirstTeam )
+
+2. Setting >> Collaborators 메뉴를 선택 --> 협업하고자 하는 팀원의 email또는 github 아이디 검색
+
+   -- [Add collaborator]선택 하면 해당 팀원의 email에 초정메일(invite) 발송
+
+3. 팀원은 해당 메일을 열어 안에 있는 [accept invite] 녹색버튼 클릭
+
+
+ # 각 팀원들은 각자 같은 저장소에 대한 작업권한이 있음.
+
+ ## 가급적 master를 직접 건드리는 방식보다는 branch를 통해 각자 작업 후 merge하는 방식 권장
+
+   - 각 사용자들은 본인들의 github에서 본인의 branch를 만들면 팀장의 저장소에도 자동으로 branch가 만들어짐.
+
+
+ ### 각 branch에서 [New pul request]버튼을 눌러보면 화살표로 어떤 브랜치에서 어느브랜치로 병합되는지 표시됨
+   
+    -- 만약 두 branch사이에 차이가 없다면 anything to compare 문구가 보여짐.
+
+
+
+-----------------------------------------------------------------------------------------------------------
+
+
+
+
+Android Studio SCM(Software Configuration Management), VCS(Version Control System)
+
+
+## GUI로 된 git이라고 생각하면 됨.
+
+0. 새 프로젝트 생성 ( GitTest ) 
+  - 윈도우 탐색기를 통해 새로만든 GitTest폴더안에 .git폴더가 있는지 확인  
+
+1. 현재 프로젝트를 Git프로젝트로 만들기 (아래 toolbar에 'Version Control' 탭이 있다면 이미 .git 상태)
+
+  1) 상단메뉴 VCS >> Enable Version Control intergration [ git init 와 같은 명령 ]
+
+  2) 팝업창에서 VCS로 사용할 프로그램 선택 [Git]
+
+
+  -- 아래 '9: Version Control'탭이 나오면 성공, 오른쪽 아래 Git:master 확인 (현재 branch)
+
+
+2. 현재 master브랜치는 어떤 문서도 git관리 시스템에 추가하지 않은 상태이기에 add File 필요 [ git add 와 같은 명령 ]
+
+  1) 아래 '9: Version Control'탭 선택
+
+  2) Unversioned Files에 있는 빨간쌕 파일들이 추적 안되고 있는 파일들( 위 왼쪽의 1: Project 구조의 파일들도 적색 )
+
+  3) Unversioned Files에서 오른쪽 버튼 'Add to VSC'선택 (이중에 특정 문서 하나만 해도 됨)
+
+  4) 모든 파일들이 녹색인지 확인 -- 아래 탭에서도 Defalut로 모두 이동 및 녹색 확인
+
+
+3. 첫번째 커밋하기
+
+  1) 상단 메뉴 VCS >> Git >> commit file [ git commit 와 같은 명령 ]
+
+  2) 팝업된 창에서 커밋할 문서들 선택..(일단 모두 다 선택 : 큰 박스 누르면 하위는 모두 선택)
+
+  3) 커밋메세지 남기고 [commit]버튼 클릭  
+
+  4) 왼쪽 아래 녹색 말풍선으로 커밋성공 메세제 확인
+
+
+4. 새로운 branch 생성 및 이동 [ git branch 브랜치명 & git checkout 브랜치명    과 같은 명령 ]
+
+  1) 오른쪽 아래 'Git:master'를 선택하여 메뉴 중 New Branch 선택
+
+  2) 브랜치이름(hotfix)기입 // 기본으로 checkout 체크박스가 체크되어 있음. 자동 브랜치 이동
+
+  3) 오른쪽 아래 'Git:hotfix' 확인
+
+
+5. 문서 작업 및 커밋
+
+  1) MainActivity.java 문서 변경 ( getActionBar().setTitle("Main Activity"); ) -- 문서가 파란색으로 됨
+     - 문서의 변경작업은 이미 add 까지 되어 있는 상태이므로 commit만 하면됨.
+
+  2) 상단 메뉴 VCS >> Git >> commit file 
+
+  3) 팝업된 창에서 커밋할 문서들 선택..
+
+  4) 커밋메세지 남기고 [commit]버튼 클릭  // 왼쪽 아래 녹색 말풍선으로 커밋성공 메세제 확인
+
+
+5. master브랜치와 hotfix브랜치를 오가며 차이 확인
+
+  1) 오른쪽 아래 'Git:hotfix'를 선택하여 메뉴 중 이동하고자 하는 브랜치명을 선택하고 checkout선택
+
+
+
+6. 병합(merge)하기 [ git merge 와 같은 명령 ]
+
+   1) 병합당하는 입장인 master로 이동(checkout)
+
+   2) 상단 메뉴 VCS >> Git >> Merge Changes.. 선택 
+
+   3) 팝업창에서 머지시킬 브랜치 선택 및 코멘트와 merge OK
+
+   4) 브랜치 이동하며 병합된 것 확인
+
+
+
+7. 이전 커밋상황으로 되돌리기( revert )
+
+   0) 새로운 작업은 언제난 master가 아닌 브랜치에서 시작!! 
+     - hotfix 브랜치로 체크아웃
+
+   1) activity_main.xml과 MainActivity변경
+     - xml에서 TextView에 id부여
+     - java에서 텍스트뷰 참조하여 글씩 변경
+
+   2) 상단 메뉴 VCS >> Git >> revert메뉴 선택
+  
+   3) 팝업된 창에서 revert할 문서들 선택.. 
+
+
+8. 커밋까지 했다면..
+
+  # 이미 commit까지 했으면 [ 9:Version Control]의 Log탭을 통해 commit지점들 확인가능 ]
+
+  ## 롤백되길 원하는 commit지점에서 마우스오른쪽 버튼으로 원하는 기능 수행 revert실행
+    - revert는 다시 새로운 commit지점이 생기면서 해당 바로 전 commit된 파일들을 되돌려서 다시 commit하는 기능
+    - 이전에 revert되기 전의 commit지점도 history에 남아 있음.
+
+
+  ### --[hard선택]
+    - reset은 특정 commit시점으로 모든 상황이 Rollback됨. 
+    - 이전 reset되기전의 commit지점들이 모두 없어지므로 주의필요함.
+
+  #### commit들을 많이하여 어디서 부터 다시 할 지 모르겠다면.. 그냥 master브랜치에서 merge해오는 방법 사용
+
+
+
+-------------------------------------------------------------------------------------------------------
+
+
+
+
+Android Studio와 Github 연동하여 저장소 관리하기(로컬저장소 --> 원격저장소)
+
+0. Github로그인 
+
+
+1. 새 프로젝트 생성 ( GitHubTest )
+
+
+2. 프로젝트를 Github로 공유(업로드)하기
+
+  1) 상단 메뉴 VCS >> Import into Version Control >> Share Project on Github [ 자동으로 git init까지 됨]
+
+  2) 'Login to GitHub' 팝업창에서 로그인방식을 Token >> Password 로 변경
+
+     -- GitHub 아이디, 비번 기입( 달라도 되지만 도리어 혼동..)     
+
+  3) GitHub사이트에 생성될 새로운 저장소 이름 및 Remote name 지정 ( origin==master) 같은 의미
+
+     -- 주의 : Description으로 세부내용 적으로 때 특수문자들은 에러남 
+
+  4) 커밋시킬 문서들 선택..(빨간색들이면 git에 add 하지 않았다는 뜻 --자동 add 및 커밋됨 ) 
+
+   -- 처음 접속할 때 팝업창이 보이면서 GitHub사이트의 로그인 요청함. ( 
+
+  5) git프로그램의 버전 내역을 보기 위한 vcs.xml문서를 추가할지 물어보는 다이얼로그 보임. yes, no 상관없음
+
+    -- 오른쪽 아래 박스로 Successfully 메세지 보이면 성공
+   
+    -- 파란색으로 밑줄된 저장소이름을 클릭하면 GitHub사이트로 자동 링크
+
+
+  ## 자동으로 현재 프로젝트가 Git 프로젝트로 됨. (VCS >> Enable Version Control intergration가 자동 실행)
+  
+  ### 아래쪽에 'Git:master'로 현재 Git 프로젝트인지 확인 가능.
+
+
+3. GitHub에서 올라간 프로젝트 문서들 확인
+
+
+4. 로컬저장소(Android Studio)에서 문서작업 후 원격저장소 갱신(Push)하기
+
+  # 원래는 새로 branch를 만들고 최종본을 master에 머지하고 업로드하는 것이 맞지만 연습으로 바로 master에서 실행
+
+  1) activity_main.xml 과 MainActivity.java변경 -- 파일명들이 파란색으로 되면서 변경되었음을 확인할 수 있음.
+
+  2) 변경내역 commit하기
+
+    -- 파란색 파일들이 모두 변경된 파일들... 이들은 모두 선택
+
+  3) commit완료 후 원격저장소(GitHub)로 전송(Push)하기
+
+    -- 상단 메뉴 VCS >> Git >> push메뉴 선택
+
+  4) 팝업차에 표시된 정보 (로컬 master->원격 master) 확인
+
+    -- push되는 파일들이 본인의 변경한 파일들이 맞는지 확인
+
+  5) 아래 [Push]버튼 클릭
+
+    -- 왼쪽 아래 녹색 말풍선으로  Push Successful 확인
+
+  6) GitHub에서 변경내역 확인
+
+
+  ## master가 아닌 다른 branch에서 Push하면 원격저장소(GitHub)에서도 다른 branch가 자동 생겨남
+   - push할때 origin의 어떤 브랜치인지 잘 확인할 것!!
+   - 당연히 Github의 master브랜치에는 영향이 없음.
+   - master에 적용하려면 별도로 merge를 해주어야 함.
+
+
+
+5. GitHub변경 내역 로컬저장소(Android Studio)로 가져오기(fetch)
+
+ 1) GitHub에서 MainActivity.java 변경 
+
+    -- MainActivity.java문서 선택후 오른쪽 위쪽에 [연필]아이콘 선택하여 수정 후 commit
+
+ 2) Android Studio에서 가져오기
+
+    -- 상단 메뉴 VCS >> Git >> pull메뉴 선택
+
+ 3) 팝업창에 보면 자동으로 push했던 원격저장소(GitHub/GitHubTest) URL이 있을 것음. 브랜치도 선택되어 있음
+
+ 4) 선택정보 확인 후 [Pull]버튼으로 가져오기
+
+ 5) 에러가 없다면 변경내역이 스튜디오에 보일 것임.
+
+
+----------------------------------------------------------------------------------------------------
+
+ 원격저장소(GitHub) --> 로컬저장소(Android Studio)로 프로젝트 내려받기(Clone)
+
+
+# 원래는 다른 PC에서 받아야 했으나 연습이므로 새로운 폴더에서 내려받기(같은 이름의 폴더가 불가해서)
+
+0. 프로젝트를 내려받을 폴더로 이동 ( D/Android/GitRepository2 ) - 없다면 생성
+
+## 방법 1. Zip파일 다운로드 후 임포트
+
+## 방법 2. 저장소 주소를 통해 Android Studio에서 바로 clone
+
+### 우리는 방법 2 사용!
+
+
+1. 상단 VCS >> Checkout from Version Control >> GitHub 선택
+
+  -- 팝업창에서 로그인 아이디와 비번 기입
+
+
+2. 'Clone Repository' 팝업창에서
+
+  1) 'Git Repository URL' : 원격저장소의 저장소 주소(뒤에 .git)으로 되어 있어야함.
+
+  2) 'Parent Directory' : Clone한 프로젝트폴더가 놓여질 경로(GitHubProjects)
+
+  3) Directory Name : Clone한 프로젝트의 로컬저장소 폴더 이름
+
+
+3. 새창으로 열기
+ 
+   --  git작업 내역을 보기 위한 vcs.xml문서를 추가할지 물어보는 다이얼로그 보임. yes, no 상관없음
+
+
+## 이제 로컬에서 작업 후 원격으로 옮기고 원격에서 또 다른 PC의 로컬로 fetch하면서 작업하기
+
+
+### 혹시 에러가 있다면 스튜디오의 그래들을 다시 빌드해서 해결 
+
+#### 혹시 원격저장소[GitHub]에 브랜치가 여러개 있다면 내려받았을 때 브랜치들까지 모두 받아지므로 해당이름의 브랜치들 별개로 확인할 수 있음.
+
+##### 원격저장소를 협업하면서 작업 가능!! (위 Github 협업 참조)
+
+
+---------------------------------------------------------------------------------------------------------
+
